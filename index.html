@@ -253,6 +253,254 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/13/前端框架/" itemprop="url">
+                  前端框架之Vue自学笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-13T10:43:01+08:00" content="2016-11-13">
+              2016-11-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/13/前端框架/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/13/前端框架/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p> </p><h1>vue学习笔记</h1><br>     <div><br>         <h3>入门</h3><br>         <h4>搭建环境</h4><br>          <div>在用vue.js构建大型应用时推荐使用NPM 安装，NPM能很好的和诸如Webpack 或 Browserify 的CommomJs 模块打包器配合使用。<p>Vue.js也提供配套工具来开发单文件组件</p></div><br>        <div>指令 <p><span>#最新稳定版本</span>npm install vue</p> <p><span>最新稳定csp 兼容版本</span>npm install vue@csp</p></div><br>        <p> 推荐使用<a href="npm.taobao.org">淘宝镜像</a> <a href="cn.vuejs.org">vue教程中文</a></p><br>        <p>import hello from ‘./components/hello’         //引用</p><br>        <p>export dafault {<br>            components :{<br>              hello<br>           }<br>        }这段会自动生成new Vue({})</p><br>        <h3>点击事件应该放在methods</h3><br>        <div><br>            <input v-model="newModel" v-on:keyup.enter="addNew" type="text"><br>            <ul><br>                <li v-for="itme in itmes" v-bind:class="{finished : itme.isFinished}" v-on:click="bindClick(itme.isFinished)"></li><br>            </ul><br>        </div><br>        <style type="text/css"><br>         .finished{text-decoration: none;}<br>        </style><br>        <p><br>             export default{             可以换成 new Vue({})<br>                data () {                数据放在这里<br>                     return {<br>                      title : ‘this title’,<br>                      items : [<br>                           {<br>                           label:’1’,<br>                            isFinished : true<br>                           },<br>                           {<br>                           label:’2’,<br>                            isFinished : false<br>                           },</p>
+<pre><code>                   ],
+                   newModel : &apos;&apos;
+               }  
+            },
+            methods : {          事件放在这里
+               bindClick (itme) {
+                console.log(itme.isFinished)     事件在 v-on 
+                itme.isFinished = !itme.isFinished
+            },
+               addNew (){
+                     this.items.push({
+                          label:this.newModel,
+                          isFinished : flase
+                       })
+                       this.newModel = &apos;&apos;
+             }
+          }
+        }
+    &lt;/p&gt;
+ &lt;/div&gt;
+ &lt;div&gt;
+     &lt;h3&gt;vue组件的划分&lt;/h3&gt;
+     &lt;p&gt;
+         import Header form &apos;./header&apos; 
+         import Footer form &apos;./footer&apos;
+         new Vue({
+            data (){
+              isShow:true
+          },
+          components : {          // 组件之间的调用
+            Header,Footer
+          }
+         })
+     &lt;/p&gt;
+     &lt;p&gt;
+         new Vue({
+            data (){
+               username: &apos;xxx&apos;
+          },
+           props:[&apos;msg&apos;],
+           methods:{
+               doThis(){
+                 console.log(this.msg)
+             }
+           }
+         })
+         &lt;header msg=&apos;somesad&apos;&gt;&lt;/header&gt;
+     &lt;/p&gt;
+     &lt;div&gt;
+         &lt;h3&gt;子组件向父组传参&lt;/h3&gt;
+         &lt;p&gt;子组件往傅父组件传递必须要注册props:[&apos;msg&apos;]&lt;/p&gt;
+          &lt;div&gt;子
+             new Vue({
+            data (){
+               username: &apos;xxx&apos;
+          },
+           props:[&apos;msg&apos;],
+           methods:{
+               doThis(){
+                 console.log(this.msg)
+             }
+           }
+         })
+         &lt;/div&gt;
+      &lt;div&gt;
+          &lt;h3&gt;父&lt;/h3&gt;
+          &lt;msg msg=&apos;die&apos;&gt;&lt;/msg&gt;
+          &lt;p&gt;
+              improt msg form&apos;./msg&apos;
+
+          &lt;/p&gt;
+      &lt;/div&gt;
+     &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;template&gt;&lt;/template&gt;
+ &lt;h3&gt;watch&lt;/h3&gt;
+ &lt;p&gt;
+var vm = new Vue({
+  data: {
+    a: 1
+  },
+  watch: {
+    &apos;a&apos;: function (val, oldVal) {
+      console.log(&apos;new: %s, old: %s&apos;, val, oldVal)
+    },
+    // 方法名
+    &apos;b&apos;: &apos;someMethod&apos;,
+    // 深度 watcher
+    &apos;c&apos;: {
+      handler: function (val, oldVal) { /* ... */ },
+      deep: true
+    }
+  }
+})
+vm.a = 2 // -&gt; new: 2, old: 1
+ &lt;/p&gt;
+ &lt;div&gt;
+     &lt;h3&gt;自定义事件&lt;/h3&gt;
+     &lt;p&gt;$on 监听事件&lt;/p&gt;
+     &lt;p&gt;$emit 在它上面触发事件&lt;/p&gt;
+     &lt;p&gt;$dispatch 派发事件，事件沿着父链冒泡&lt;/p&gt;
+     &lt;p&gt;$broadcast 广播事件，事件向下传导给所有的后代&lt;/p&gt;
+ &lt;/div&gt;
+ &lt;div&gt;
+       &lt;h3&gt;子&lt;/h3&gt;
+       &lt;template&gt;
+        &lt;component-a msgfromfather=&apos;you die&apos;
+        v-on:child-tell-me-something=&apos;&apos;&gt;&lt;/component-a&gt;
+    &lt;/template&gt;
+ &lt;/div&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+     import Store from &apos;./store&apos;
+     import ComponentA from &apos;./components/componentsA&apos;
+      export default{
+          data(){
+               return {
+                    title :&apos;this is a todo list&apos;,
+                    items: Store.fetch(),
+                    newItem: &apos;&apos;
+               }
+          },
+          components :{ ComponentA },
+          watch :{
+               items :{
+                    handler (items){
+                          Store.save(items)
+                    }
+               },
+               deep:true 
+          },
+          methods :{
+               toggleFinish (item){
+                item.isFinished =! item.isFinished
+               },
+               addNew(){
+                   this.items.push({
+                       label : this.newItem,
+                       isFinished : false 
+                   })
+                   this.newItem = &apos;&apos;
+               }
+          }
+      }
+    &lt;/script&gt;
+</code></pre> <script type="text/javascript">
+  appendChild()
+  remove()
+</script></div>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/02/xinwen/" itemprop="url">
                   有用的网站总结
                 </a>
@@ -594,7 +842,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -641,7 +889,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
